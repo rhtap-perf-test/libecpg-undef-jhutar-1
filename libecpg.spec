@@ -1,8 +1,8 @@
-%global majorversion 10
+%global majorversion 11
 
 Summary: ECPG - Embedded SQL in C
 Name: libecpg
-Version: %majorversion.5
+Version: %majorversion.0
 Release: 1%{?dist}
 
 License: PostgreSQL
@@ -75,10 +75,6 @@ find . -type f -name .gitignore | xargs rm
     --without-readline \
     --datadir=%_datadir/pgsql
 
-# TODO: can those be built automatically?
-make -C "src/backend" ../../src/include/utils/fmgroids.h
-make -C "src/backend" ../../src/include/utils/fmgrprotos.h
-
 %make_build -C "src/interfaces/ecpg"
 
 
@@ -130,6 +126,10 @@ find_lang_bins %name-devel.lst  ecpg
 
 
 %changelog
+* Wed Oct 17 2018 Pavel Raiskup <praiskup@redhat.com> - 11.0-1
+- latest upstream release, per release notes:
+  https://www.postgresql.org/docs/11/static/release-11-0.html
+
 * Thu Aug 30 2018 Pavel Raiskup <praiskup@redhat.com> - 10.5-1
 - slight simplification before review
 
