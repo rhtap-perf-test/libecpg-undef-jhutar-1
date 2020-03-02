@@ -1,9 +1,9 @@
-%global majorversion 11
+%global majorversion 12
 
 Summary: ECPG - Embedded SQL in C
 Name: libecpg
 Version: %majorversion.2
-Release: 3%{?dist}
+Release: 1%{?dist}
 
 License: PostgreSQL
 Url: http://www.postgresql.org/
@@ -15,8 +15,9 @@ Source1: https://ftp.postgresql.org/pub/source/v%version/postgresql-%version.tar
 # Comments for these patches are in the patch files.
 Patch1: libecpg-10.5-rpm-pgsql.patch
 Patch2: libecpg-10.5-var-run-socket.patch
-Patch3: libecpg-10.5-external-libpq.patch
+Patch3: libecpg-12.2-external-libpq.patch
 Patch4: libecpg-10.5-no-compat-lib.patch
+Patch5: libecpg-12.2-dependency-build.patch
 
 BuildRequires: gcc
 BuildRequires: glibc-devel bison flex gawk
@@ -126,6 +127,12 @@ find_lang_bins %name-devel.lst  ecpg
 
 
 %changelog
+* Mon Mar 2 2020 Filip Januš <fjanus@redhat.com> - 12.2-1
+- Rebase onto: 12.2
+- update of patch(libecpg-10.5-external-libpq.patch) was needed
+- add upstream patch libecpg-12.2-dependency-build.patch
+  https://www.postgresql.org/message-id/20200321221303.GA17979%40momjian.us 
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
