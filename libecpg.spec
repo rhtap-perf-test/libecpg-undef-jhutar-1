@@ -2,7 +2,7 @@
 
 Summary: ECPG - Embedded SQL in C
 Name: libecpg
-Version: %majorversion.2
+Version: %majorversion.3
 Release: 1%{?dist}
 
 License: PostgreSQL
@@ -127,6 +127,9 @@ find_lang_bins %name-devel.lst  ecpg
 
 
 %changelog
+* Mon May 18 2020 Patrik Novotný <panovotn@redhat.com> - 12.3-1
+- Rebase to upstream release 12.3
+
 * Mon Mar 2 2020 Filip Januš <fjanus@redhat.com> - 12.2-1
 - Rebase onto: 12.2
 - update of patch(libecpg-10.5-external-libpq.patch) was needed
