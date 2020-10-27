@@ -12,42 +12,15 @@ server package update, without requiring any existing postgresql.conf
 to be updated.  (Of course, a user who dislikes this behavior can still
 override it via postgresql.conf.)
 
-diff --git a/src/backend/utils/misc/guc.c b/src/backend/utils/misc/guc.c
-index 9481f2d..75532c7 100644
---- a/src/backend/utils/misc/guc.c
-+++ b/src/backend/utils/misc/guc.c
-@@ -3196,7 +3196,7 @@ static struct config_string ConfigureNamesString[] =
- 		},
- 		&Unix_socket_directories,
- #ifdef HAVE_UNIX_SOCKETS
--		DEFAULT_PGSOCKET_DIR,
-+		DEFAULT_PGSOCKET_DIR ", /tmp",
- #else
- 		"",
- #endif
-diff --git a/src/bin/initdb/initdb.c b/src/bin/initdb/initdb.c
-index feeff9e..3e3d784 100644
---- a/src/bin/initdb/initdb.c
-+++ b/src/bin/initdb/initdb.c
-@@ -1234,7 +1234,7 @@ setup_config(void)
- 
- #ifdef HAVE_UNIX_SOCKETS
- 	snprintf(repltok, sizeof(repltok), "#unix_socket_directories = '%s'",
--			 DEFAULT_PGSOCKET_DIR);
-+			 DEFAULT_PGSOCKET_DIR ", /tmp");
- #else
- 	snprintf(repltok, sizeof(repltok), "#unix_socket_directories = ''");
- #endif
-diff --git a/src/include/pg_config_manual.h b/src/include/pg_config_manual.h
-index e278fa0..9ee15d4 100644
---- a/src/include/pg_config_manual.h
-+++ b/src/include/pg_config_manual.h
-@@ -169,7 +169,7 @@
-  * here's where to twiddle it.  You can also override this at runtime
-  * with the postmaster's -k switch.
+diff -up postgresql-13.0/src/include/pg_config_manual.h.patch1 postgresql-13.0/src/include/pg_config_manual.h
+--- postgresql-13.0/src/include/pg_config_manual.h.patch1	2020-10-23 10:18:12.204959024 +0200
++++ postgresql-13.0/src/include/pg_config_manual.h	2020-10-23 10:18:39.391208931 +0200
+@@ -201,7 +201,7 @@
+  * support them yet.
   */
+ #ifndef WIN32
 -#define DEFAULT_PGSOCKET_DIR  "/tmp"
 +#define DEFAULT_PGSOCKET_DIR  "/var/run/postgresql"
- 
- /*
-  * This is the default event source for Windows event log.
+ #else
+ #define DEFAULT_PGSOCKET_DIR ""
+ #endif
