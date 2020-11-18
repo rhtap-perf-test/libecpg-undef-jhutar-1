@@ -2,7 +2,7 @@
 
 Summary: ECPG - Embedded SQL in C
 Name: libecpg
-Version: %majorversion.0
+Version: %majorversion.1
 Release: 1%{?dist}
 
 License: PostgreSQL
@@ -127,6 +127,9 @@ find_lang_bins %name-devel.lst  ecpg
 
 
 %changelog
+* Wed Nov 18 2020 Honza Horak <hhorak@redhat.com> - 13.1-1
+- Rebase to upstream release 13.0
+
 * Fri Oct 23 2020 Honza Horak <hhorak@redhat.com> - 13.0-1
 - Rebase to upstream release 13.0
 
