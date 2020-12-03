@@ -1,0 +1,11 @@
+summary: Tier tests
+discover:
+    how: fmf
+    # using temporary location before the test is merged
+    #repository: git://pkgs.devel.redhat.com/tests/micropipenv
+    #ref: master
+    repository: https://src.fedoraproject.org/forks/hhorak/tests/postgresql.git
+    ref: add-libecpg
+    filter: 'tag:libecpg'
+execute:
+    how: tmt
