@@ -3,7 +3,7 @@
 Summary: ECPG - Embedded SQL in C
 Name: libecpg
 Version: %majorversion.1
-Release: 1%{?dist}
+Release: 3%{?dist}
 
 License: PostgreSQL
 Url: http://www.postgresql.org/
@@ -28,6 +28,8 @@ BuildRequires: openldap-devel
 BuildRequires: libpq-devel
 BuildRequires: gettext
 BuildRequires: multilib-rpm-config
+
+Requires: libpgtypes = %{version}-%{release}
 
 %description
 An embedded SQL program consists of code written in an ordinary programming
@@ -127,6 +129,10 @@ find_lang_bins %name-devel.lst  ecpg
 
 
 %changelog
+* Thu Dec 03 2020 Honza Horak <hhorak@redhat.com> - 13.1-3
+- Add Requires: libpgtypes to avoid the need to test interoperability
+  between the various combinations of old and new subpackages
+
 * Wed Nov 18 2020 Honza Horak <hhorak@redhat.com> - 13.1-1
 - Rebase to upstream release 13.0
 
