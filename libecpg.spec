@@ -28,6 +28,7 @@ BuildRequires: openldap-devel
 BuildRequires: libpq-devel
 BuildRequires: gettext
 BuildRequires: multilib-rpm-config
+BuildRequires: make
 
 Requires: libpgtypes = %{version}-%{release}
 
