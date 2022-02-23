@@ -136,7 +136,7 @@ find_lang_bins %name-devel.lst  ecpg
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 13.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
-* Thu Jun 17 2021 Filip Januš <fjanus@redhat.com> - 13.3-1
+* Thu Jul 27 2021 Filip Januš <fjanus@redhat.com> - 13.3-1
 - Update to 13.3
 
 * Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 13.1-6
