@@ -53,6 +53,7 @@ package or any clients that use the ECPG to connect to a PostgreSQL server.
 %package -n libpgtypes
 Summary: Map PostgreSQL database types to C equivalents
 
+
 %description -n libpgtypes
 The pgtypes library maps PostgreSQL database types to C equivalents that can be
 used in C programs. It also offers functions to do basic calculations with those
