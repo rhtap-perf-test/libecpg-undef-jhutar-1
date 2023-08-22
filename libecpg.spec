@@ -131,9 +131,15 @@ find_lang_bins %name-devel.lst  ecpg
 
 
 %changelog
-* Fri Jun 02 2023 Ondrej Sloup <osloup@redhat.com> - 15.4-1
+* Tue Aug 22 2023 Ondrej Sloup <osloup@redhat.com> - 15.4-1
 - Rebase to the latest upstream version
-- Updated dependency patch file to match the rebase
+- Update dependency patch file to match the rebase
+
+* Thu Jul 20 2023 Fedora Release Engineering <releng@fedoraproject.org> - 14.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
+
+* Thu Jan 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 14.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
 
 * Thu Sep 1 2022 Ondřej Sloup <osloup@redhat.com> - 14.4-3
 - Raise the release number as dependencies change enabled a new build
