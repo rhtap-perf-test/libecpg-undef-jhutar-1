@@ -1,9 +1,9 @@
-%global majorversion 14
+%global majorversion 15
 
 Summary: ECPG - Embedded SQL in C
 Name: libecpg
 Version: %majorversion.4
-Release: 5%{?dist}
+Release: 1%{?dist}
 
 License: PostgreSQL
 Url: http://www.postgresql.org/
@@ -131,11 +131,9 @@ find_lang_bins %name-devel.lst  ecpg
 
 
 %changelog
-* Thu Jul 20 2023 Fedora Release Engineering <releng@fedoraproject.org> - 14.4-5
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
-
-* Thu Jan 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 14.4-4
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
+* Fri Jun 02 2023 Ondrej Sloup <osloup@redhat.com> - 15.4-1
+- Rebase to the latest upstream version
+- Updated dependency patch file to match the rebase
 
 * Thu Sep 1 2022 Ondřej Sloup <osloup@redhat.com> - 14.4-3
 - Raise the release number as dependencies change enabled a new build

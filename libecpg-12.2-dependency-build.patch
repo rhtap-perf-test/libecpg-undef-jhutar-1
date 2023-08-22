@@ -5,7 +5,7 @@ diff -ur postgresql-14.4_original/src/interfaces/libpq/Makefile postgresql-14.4/
  PKG_CONFIG_REQUIRES_PRIVATE = libssl libcrypto
  endif
  
--all: all-lib
+-all: all-lib libpq-refs-stamp
 -
  # Shared library stuff
  include $(top_srcdir)/src/Makefile.shlib
