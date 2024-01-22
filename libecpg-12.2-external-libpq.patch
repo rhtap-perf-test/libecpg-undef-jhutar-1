@@ -24,7 +24,7 @@ diff -ur postgresql-12.2/src/Makefile.global.in postgresql-12.2_patch/src/Makefi
 +libpq = -lpq
  
  # libpq_pgport is for use by client executables (not libraries) that use libpq.
- # We force clients to pull symbols from the non-shared libraries libpgport
+ # We want clients to pull symbols from the non-shared libraries libpgport
 @@ -580,7 +580,6 @@
  # Commonly used submake targets
  
