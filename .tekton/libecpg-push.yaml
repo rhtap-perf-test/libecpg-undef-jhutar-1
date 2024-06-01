@@ -206,6 +206,25 @@ spec:
               else
                 cp /ssh/id_rsa ~/.ssh
               fi
+
+              chroot_name() {
+                local branch={{ target_branch }}
+                local distro=fedora
+                local version=rawhide
+                case $branch in
+                  f*)
+                    local version=${branch##f}
+                    ;;
+                esac
+                local arch=x86_64
+                case $(params.PLATFORM) in
+                  *s390x) arch=s390x ;;
+                  *ppc64le) arch=ppc64le ;;
+                  *arm64) arch=aarch64 ;;
+                esac
+                echo $distro-$version-$arch
+              }
+
               chmod 0400 ~/.ssh/id_rsa
               export SSH_HOST=$(cat /ssh/host)
               export BUILD_DIR=$(cat /ssh/user-dir)
@@ -218,7 +237,7 @@ spec:
 
               mock_img=quay.io/praiskup/mock:966775003f2195b6c763a430294b1837ec84ab7c
               remote_cmd podman run -v "$BUILD_DIR/source:/source" --privileged --rm -ti "$mock_img" \
-                  mock --spec /source/$(params.package-name).spec --sources /source
+                  mock -r "$(chroot_name)" --spec /source/$(params.package-name).spec --sources /source
 
             volumeMounts:
               - mountPath: /ssh
