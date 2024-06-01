@@ -18,8 +18,8 @@ metadata:
   namespace: rhn-support-praiskup-tenant
 spec:
   params:
-  - name: dockerfile
-    value: Dockerfile
+  - name: package-name
+    value: libecpg
   - name: git-url
     value: '{{source_url}}'
   - name: image-expires-after
@@ -137,6 +137,8 @@ spec:
         value: $(params.git-url)
       - name: revision
         value: $(params.revision)
+      - name: depth
+        value: 0
       runAfter:
       - init
       taskRef:
@@ -158,7 +160,22 @@ spec:
         workspace: workspace
       - name: basic-auth
         workspace: git-auth
-
+    - name: prefetch-sources
+      taskSpec:
+        steps:
+          - name: observe
+            image: quay.io/redhat-user-workloads/rhn-support-praiskup-tenant/konflux-rpm-prefetch-sources/konflux-rpm-prefetch-sources:40af1340112df6e3f49e40230f34de7149ce2c59
+            script: |
+              set -x
+              cd /workspace/output/source/
+              copr-distgit-client --forked-from "https://src.fedoraproject.org/rpms/$(params.package-name).git" sources
+      runAfter:
+        - clone-repository
+      workspaces:
+      - name: output
+        workspace: workspace
+      - name: basic-auth
+        workspace: git-auth
     workspaces:
     - name: workspace
     - name: git-auth
