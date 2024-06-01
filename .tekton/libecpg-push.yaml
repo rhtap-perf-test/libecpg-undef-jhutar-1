@@ -180,74 +180,43 @@ spec:
         - name: PLATFORM
           value: linux/amd64
       workspaces:
-      - name: output
-        workspace: workspace
-      - name: basic-auth
-        workspace: git-auth
-      taskSpec:
-        steps:
-          - name: mock-build
-            metadata:
-              labels:
-                build.appstudio.redhat.com/multi-platform-required: "true"
-            image: "quay.io/redhat-appstudio/multi-platform-runner:01c7670e81d5120347cf0ad13372742489985e5f@sha256:246adeaaba600e207131d63a7f706cffdcdc37d8f600c56187123ec62823ff44"
-            script: |
-              #!/usr/bin/env bash
-              set -x
-              ls -lah /ssh
-              mkdir -p ~/.ssh
-              if [ -e "/ssh/error" ]; then
-                #no server could be provisioned
-                cat /ssh/error
-                exit 1
-              elif [ -e "/ssh/otp" ]; then
-               curl --cacert /ssh/otp-ca -XPOST -d @/ssh/otp $(cat /ssh/otp-server) >~/.ssh/id_rsa
-               echo "" >> ~/.ssh/id_rsa
-              else
-                cp /ssh/id_rsa ~/.ssh
-              fi
-
-              chroot_name() {
-                local branch={{ target_branch }}
-                local distro=fedora
-                local version=rawhide
-                case $branch in
-                  f*)
-                    local version=${branch##f}
-                    ;;
-                esac
-                local arch=x86_64
-                case $(params.PLATFORM) in
-                  *s390x) arch=s390x ;;
-                  *ppc64le) arch=ppc64le ;;
-                  *arm64) arch=aarch64 ;;
-                esac
-                echo $distro-$version-$arch
-              }
-
-              chmod 0400 ~/.ssh/id_rsa
-              export SSH_HOST=$(cat /ssh/host)
-              export BUILD_DIR=$(cat /ssh/user-dir)
-              export SSH_ARGS="-o StrictHostKeyChecking=no"
-              remote_cmd() { ssh $SSH_ARGS "$SSH_HOST" "$@" ; }
-              send() { rsync -rva "$1" "$SSH_HOST:$2" ; }
-
-              remote_cmd echo "Hello from the other side!"
-              send "$(workspaces.output.path)/source/" "$BUILD_DIR/source"
-
-              mock_img=quay.io/praiskup/mock:966775003f2195b6c763a430294b1837ec84ab7c
-              remote_cmd podman run -v "$BUILD_DIR/source:/source" --privileged --rm -ti "$mock_img" \
-                  mock -r "$(chroot_name)" --spec /source/$(params.package-name).spec --sources /source
-
-            volumeMounts:
-              - mountPath: /ssh
-                name: ssh
-                readOnly: true
-        volumes:
-          - name: ssh
-            secret:
-              optional: false
-              secretName: multi-platform-ssh-$(context.taskRun.name)
+        - name: sources
+          workspace: workspace
+      taskRef:
+        name: rpmbuild
+    - name: rpmbuild-aarch64
+      runAfter:
+        - prefetch-sources
+      params:
+        - name: PLATFORM
+          value: linux/arm64
+      workspaces:
+        - name: sources
+          workspace: workspace
+      taskRef:
+        name: rpmbuild
+    - name: rpmbuild-s390x
+      runAfter:
+        - prefetch-sources
+      params:
+        - name: PLATFORM
+          value: linux/s390x
+      workspaces:
+        - name: sources
+          workspace: workspace
+      taskRef:
+        name: rpmbuild
+    - name: rpmbuild-ppc64le
+      runAfter:
+        - prefetch-sources
+      params:
+        - name: PLATFORM
+          value: linux/ppc64le
+      workspaces:
+        - name: sources
+          workspace: workspace
+      taskRef:
+        name: rpmbuild
     workspaces:
     - name: workspace
     - name: git-auth
