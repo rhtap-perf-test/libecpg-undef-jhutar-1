@@ -1,0 +1,21 @@
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  annotations:
+    tekton.dev/tags: rpm-build
+  name: get-rpm-sources
+spec:
+  description: |-
+    Download source files referenced by a spec file.
+  steps:
+    - name: download
+      image: "quay.io/redhat-user-workloads/rhn-support-praiskup-tenant/\
+              konflux-rpm-prefetch-sources/konflux-rpm-prefetch-sources:\
+              40af1340112df6e3f49e40230f34de7149ce2c59"
+      script: |
+        set -x
+        cd "$(workspaces.sources.path)/source"
+        copr-distgit-client --forked-from "https://src.fedoraproject.org/rpms/$(params.package-name).git" sources
+  workspaces:
+    - name: sources
