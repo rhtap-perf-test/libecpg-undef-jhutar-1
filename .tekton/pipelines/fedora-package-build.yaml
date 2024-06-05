@@ -125,7 +125,7 @@ spec:
       workspace: workspace
     - name: basic-auth
       workspace: git-auth
-  - name: prefetch-sources
+  - name: get-rpm-sources
     taskSpec:
       steps:
         - name: observe
@@ -143,7 +143,7 @@ spec:
       workspace: git-auth
   - name: rpmbuild-x86-64
     runAfter:
-      - prefetch-sources
+      - get-rpm-sources
     params:
       - name: PLATFORM
         value: linux/amd64
@@ -154,7 +154,7 @@ spec:
       name: rpmbuild
   - name: rpmbuild-aarch64
     runAfter:
-      - prefetch-sources
+      - get-rpm-sources
     params:
       - name: PLATFORM
         value: linux/arm64
@@ -165,7 +165,7 @@ spec:
       name: rpmbuild
   - name: rpmbuild-s390x
     runAfter:
-      - prefetch-sources
+      - get-rpm-sources
     params:
       - name: PLATFORM
         value: linux/s390x
@@ -176,7 +176,7 @@ spec:
       name: rpmbuild
   - name: rpmbuild-ppc64le
     runAfter:
-      - prefetch-sources
+      - get-rpm-sources
     params:
       - name: PLATFORM
         value: linux/ppc64le
